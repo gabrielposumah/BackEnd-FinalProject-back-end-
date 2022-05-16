@@ -39,3 +39,25 @@ exports.login =async (req,res)=> {
         return e
     }
 }
+exports.updateDataUser = async (req,res)=> {
+    if (req.body.userId === req.params.id){
+        if(req.body.password) {
+            try{
+                    res.status(200).json('Password berhasil diubah')
+            } catch(e){
+                    return e
+            }
+        }
+        try{
+            const user = await User.findByIdAndUpdate(req.params.id,
+                {
+                    $set: req.body,
+                })
+                res.status(200).json('Akun Berhasil diubah')
+        } catch(e){
+            return e
+        }
+    } else{
+        return res.status(403).json(' kamu hanya bisa update akun kamu')
+    }
+}
